@@ -11,6 +11,20 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
+   
+  postgre:
+   image: postgres:latest
+   container_name: postgre
+   environment:
+     POSTGRES_USER: root
+     POSTGRES_PASSWORD: root
+     POSTGRES_DB: ordersDB
+     POSTGRES_INITDB_ARGS: "--extension=uuid-ossp"
+   ports:
+     - "5432:5432"
+   volumes:
+     - ./pg_data:/var/lib/postgresql/data
+   command: ["postgres", "-c", "max_prepared_transactions=100", "-c", "fsync=off"]
     
 
   mongo-express:
@@ -25,6 +39,10 @@ services:
       ME_CONFIG_MONGODB_URL: "mongodb://root:root@mongo:27017/"
       ME_CONFIG_BASICAUTH_USERNAME: root
       ME_CONFIG_BASICAUTH_PASSWORD: root
+  
+
+
 volumes:
   mongo: {}
-   
+  postgres: {}
+    
