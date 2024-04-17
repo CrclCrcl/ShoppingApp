@@ -7,15 +7,18 @@ import com.example.ordersevice.Entity.OrderedItems;
 import com.example.ordersevice.Repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class OrderService {
 
     private final OrderRepository orderRepository;
+    private final WebClient webClient;
     public void createOrder(OrderRequst orderRequst){
         Order order = new Order();
         order.setNumbofOrder(UUID.randomUUID().toString());
@@ -28,7 +31,19 @@ public class OrderService {
 
 
         order.setOrderedItems(orderedItems);
-        orderRepository.save(order);
+        Boolean result =webClient.get()
+                .uri("http://localhost:8282/catalog")
+                .retrieve()
+                .bodyToMono(Boolean.class)
+                .block();
+
+        if(result){
+            orderRepository.save(order);
+        }else{
+            throw new NotFoundProductException( "Item is temporarily unavailable, please try again later.")
+        }
+
+
     }
 
     private OrderedItems mapToDto(OrderedItemsDto orderedItemsDto) {
