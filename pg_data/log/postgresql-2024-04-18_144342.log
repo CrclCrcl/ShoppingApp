@@ -1,0 +1,30 @@
+2024-04-18 14:43:43.005 UTC [1] LOG:  starting PostgreSQL 16.1 (Debian 16.1-1.pgdg120+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14) 12.2.0, 64-bit
+2024-04-18 14:43:43.005 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+2024-04-18 14:43:43.005 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+2024-04-18 14:43:43.007 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2024-04-18 14:43:43.043 UTC [31] LOG:  database system was shut down at 2024-04-18 14:43:31 UTC
+2024-04-18 14:43:43.075 UTC [1] LOG:  database system is ready to accept connections
+2024-04-18 14:44:24.686 UTC [35] FATAL:  database "catalogDB" does not exist
+2024-04-18 14:44:26.304 UTC [36] FATAL:  database "catalogDB" does not exist
+2024-04-18 14:47:18.965 UTC [47] LOG:  statement: SELECT
+	  d.datname as "Name",
+	  pg_catalog.pg_get_userbyid(d.datdba) as "Owner",
+	  pg_catalog.pg_encoding_to_char(d.encoding) as "Encoding",
+	  CASE d.datlocprovider WHEN 'c' THEN 'libc' WHEN 'i' THEN 'icu' END AS "Locale Provider",
+	  d.datcollate as "Collate",
+	  d.datctype as "Ctype",
+	  d.daticulocale as "ICU Locale",
+	  d.daticurules as "ICU Rules",
+	  pg_catalog.array_to_string(d.datacl, E'\n') AS "Access privileges"
+	FROM pg_catalog.pg_database d
+	ORDER BY 1;
+2024-04-18 14:48:23.781 UTC [1] LOG:  received fast shutdown request
+2024-04-18 14:48:23.783 UTC [1] LOG:  aborting any active transactions
+2024-04-18 14:48:23.785 UTC [1] LOG:  background worker "logical replication launcher" (PID 34) exited with exit code 1
+2024-04-18 14:48:23.786 UTC [29] LOG:  shutting down
+2024-04-18 14:48:23.787 UTC [29] LOG:  checkpoint starting: shutdown immediate
+2024-04-18 14:48:23.795 UTC [29] PANIC:  could not open file "pg_logical/replorigin_checkpoint.tmp": No such file or directory
+2024-04-18 14:48:23.800 UTC [1] LOG:  checkpointer process (PID 29) was terminated by signal 6: Aborted
+2024-04-18 14:48:23.800 UTC [1] LOG:  terminating any other active server processes
+2024-04-18 14:48:23.800 UTC [1] LOG:  abnormal database system shutdown
+2024-04-18 14:48:23.804 UTC [1] LOG:  database system is shut down

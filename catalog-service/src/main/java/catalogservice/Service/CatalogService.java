@@ -21,7 +21,7 @@ public class CatalogService {
 
     @Transactional(readOnly = true)
     public List<CatalogResponse> isAvailable(List<String> UniCode) {
-        return catalogRepository.findbyUniCodeIn(UniCode).stream()
+        return catalogRepository.findByUniCodeIn(UniCode).stream()
                 .map(catalog ->
                     CatalogResponse.builder()
                             .UniCode(catalog.getUniCode())

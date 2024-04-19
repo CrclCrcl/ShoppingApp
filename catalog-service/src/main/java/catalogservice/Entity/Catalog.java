@@ -16,7 +16,7 @@ public class Catalog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String UniCode;
+    private String uniCode;
     private Integer quantity;
 
 }

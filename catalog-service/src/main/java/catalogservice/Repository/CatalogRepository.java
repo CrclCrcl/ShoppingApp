@@ -9,6 +9,5 @@ import java.util.Optional;
 public interface CatalogRepository extends JpaRepository<Catalog,Long> {
 
 
-
-    List<Catalog> findbyUniCodeIn(List<String> uniCode);
+    List<Catalog> findByUniCodeIn(List<String> uniCodes);
 }

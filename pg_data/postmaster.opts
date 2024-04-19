@@ -1,1 +1,1 @@
-/usr/lib/postgresql/16/bin/postgres "-c" "max_prepared_transactions=100" "-c" "fsync=off"
+/usr/lib/postgresql/16/bin/postgres "-c" "max_prepared_transactions=100" "-c" "fsync=off" "-c" "log_statement=all" "-c" "log_destination=stderr" "-c" "logging_collector=on"

@@ -1,0 +1,26 @@
+2024-04-18 12:44:39.894 UTC [1] LOG:  starting PostgreSQL 16.1 (Debian 16.1-1.pgdg120+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14) 12.2.0, 64-bit
+2024-04-18 12:44:39.895 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+2024-04-18 12:44:39.895 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+2024-04-18 12:44:39.896 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2024-04-18 12:44:39.920 UTC [30] LOG:  database system was shut down at 2024-04-18 12:44:33 UTC
+2024-04-18 12:44:39.952 UTC [1] LOG:  database system is ready to accept connections
+2024-04-18 12:45:52.671 UTC [42] LOG:  statement: SELECT
+	  d.datname as "Name",
+	  pg_catalog.pg_get_userbyid(d.datdba) as "Owner",
+	  pg_catalog.pg_encoding_to_char(d.encoding) as "Encoding",
+	  CASE d.datlocprovider WHEN 'c' THEN 'libc' WHEN 'i' THEN 'icu' END AS "Locale Provider",
+	  d.datcollate as "Collate",
+	  d.datctype as "Ctype",
+	  d.daticulocale as "ICU Locale",
+	  d.daticurules as "ICU Rules",
+	  pg_catalog.array_to_string(d.datacl, E'\n') AS "Access privileges"
+	FROM pg_catalog.pg_database d
+	ORDER BY 1;
+2024-04-18 12:49:23.548 UTC [1] LOG:  received fast shutdown request
+2024-04-18 12:49:23.550 UTC [1] LOG:  aborting any active transactions
+2024-04-18 12:49:23.550 UTC [42] FATAL:  terminating connection due to administrator command
+2024-04-18 12:49:23.552 UTC [1] LOG:  background worker "logical replication launcher" (PID 33) exited with exit code 1
+2024-04-18 12:49:23.563 UTC [28] LOG:  shutting down
+2024-04-18 12:49:23.565 UTC [28] LOG:  checkpoint starting: shutdown immediate
+2024-04-18 12:49:23.590 UTC [28] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.007 s, sync=0.001 s, total=0.027 s; sync files=0, longest=0.000 s, average=0.000 s; distance=0 kB, estimate=0 kB; lsn=0/1987938, redo lsn=0/1987938
+2024-04-18 12:49:23.598 UTC [1] LOG:  database system is shut down
