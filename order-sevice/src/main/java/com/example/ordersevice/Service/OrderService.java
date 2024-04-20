@@ -5,8 +5,13 @@ import com.example.ordersevice.Dto.OrderRequst;
 import com.example.ordersevice.Dto.OrderedItemsDto;
 import com.example.ordersevice.Entity.Order;
 import com.example.ordersevice.Entity.OrderedItems;
+import com.example.ordersevice.Event.OrderEvent;
 import com.example.ordersevice.Repository.OrderRepository;
+import io.micrometer.tracing.Span;
+import io.micrometer.tracing.Tracer;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -19,10 +24,13 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class OrderService {
 
     private final OrderRepository orderRepository;
     private final WebClient webClient;
+    private final Tracer tracer;
+    private final KafkaTemplate<String,OrderEvent> kafkaTemplate;
     public String createOrder(OrderRequst orderRequst){
         Order order = new Order();
         order.setNumbofOrder(UUID.randomUUID().toString());
@@ -31,7 +39,15 @@ public class OrderService {
                 .stream()
                 .map(this::mapToDto)
                 .toList();
+        log.info("Waiting for Catalog Service");
 
+       Span catalogService = tracer.nextSpan().name("CatalogService");
+
+       try(Tracer.SpanInScope spanInScope = tracer.withSpan(catalogService.start())){
+
+       }finally {
+           catalogService.end();
+       }
 
         List<String> uniCodes = order.getOrderedItems().stream()
                 .map(OrderedItems::getUniCode)
@@ -49,6 +65,7 @@ public class OrderService {
 
         if(allProdInCatalog){
             orderRepository.save(order);
+            kafkaTemplate.send("shopping-app", new OrderEvent(order.getNumbofOrder()));
             return "Order Placed Succesfully!";
         }else{
             throw new IllegalArgumentException("Item is temporarily unavailable, please try again later.");
