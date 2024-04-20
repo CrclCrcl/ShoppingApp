@@ -23,7 +23,7 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final WebClient webClient;
-    public void createOrder(OrderRequst orderRequst){
+    public String createOrder(OrderRequst orderRequst){
         Order order = new Order();
         order.setNumbofOrder(UUID.randomUUID().toString());
 
@@ -49,6 +49,7 @@ public class OrderService {
 
         if(allProdInCatalog){
             orderRepository.save(order);
+            return "Order Placed Succesfully!";
         }else{
             throw new IllegalArgumentException("Item is temporarily unavailable, please try again later.");
         }
